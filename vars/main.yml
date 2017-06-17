@@ -1,0 +1,10 @@
+---
+xgboost_python_dependencies:
+  - setuptools
+  - numpy
+  - scipy
+  - scikit-learn
+
+xgboost_repo_url: https://github.com/dmlc/xgboost
+xgboost_clone_dir: '{{ ansible_env.HOME }}/src/xgboost'
+xgboost_python_package_dir: '{{ xgboost_clone_dir }}/python-package'

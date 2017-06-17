@@ -1,0 +1,42 @@
+---
+- name: Check Python version
+  when: xgboost_install_python_package
+  command: python --version
+  register: python_version_output
+  changed_when: no
+
+- name: Upgrade libgcc if we're running Anaconda
+  when: xgboost_install_python_package and python_version_output.stderr | search('Anaconda')
+  block:
+    - name: Add anaconda to the list of channels
+      command: conda config --append channels anaconda
+      changed_when: no
+    - name: Update libgcc for Anaconda
+      command: conda install -y libgcc
+      register: lib_update_result
+      changed_when: not (lib_update_result.stdout | search('All requested packages already installed'))
+
+- name: Clone XGBoost repository
+  git:
+    repo: '{{ xgboost_repo_url }}'
+    recursive: yes
+    dest: '{{ xgboost_clone_dir }}'
+
+- name: Run build.sh
+  command: '{{ xgboost_clone_dir }}/build.sh'
+  args:
+    chdir: '{{ xgboost_clone_dir }}'
+    creates: '{{ xgboost_clone_dir}}/lib/libxgboost.so'
+
+- name: Install Python dependencies
+  when: xgboost_install_python_package
+  pip:
+    name: '{{ item }}'
+    state: present
+  with_items: '{{ xgboost_python_dependencies }}'
+
+- name: Install the Python package
+  when: xgboost_install_python_package
+  command: python setup.py install
+  args:
+    chdir: '{{ xgboost_python_package_dir }}'

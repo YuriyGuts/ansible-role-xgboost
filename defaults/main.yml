@@ -1,0 +1,3 @@
+---
+# Install the xgboost Python package after building the shared library.
+xgboost_install_python_package: yes
