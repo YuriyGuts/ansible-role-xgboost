@@ -33,6 +33,7 @@
   pip:
     name: '{{ item }}'
     state: present
+    executable: '{{ xgboost_python_package_manager }}'
   with_items: '{{ xgboost_python_dependencies }}'
 
 - name: Install the Python package
