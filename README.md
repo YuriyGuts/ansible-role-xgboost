@@ -6,8 +6,10 @@ An Ansible role to install XGBoost on Linux.
 Requirements
 ------------
 
-* This role assumes that the user on the target system can install Python packages without `sudo`. If this is not the case, add `become: yes` to the role parameters in your playbook.
 * `pip` on the target system.
+
+* If the target environment requires running `pip` with elevated privileges,
+  make sure to set `xgboost_python_package_manager_become: yes` in your playbook.
 
 Role Variables
 --------------

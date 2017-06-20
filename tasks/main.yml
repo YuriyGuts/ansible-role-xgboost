@@ -30,6 +30,7 @@
 
 - name: Install Python dependencies
   when: xgboost_install_python_package
+  become: '{{ xgboost_python_package_manager_become }}'
   pip:
     name: '{{ item }}'
     state: present

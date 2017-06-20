@@ -5,3 +5,6 @@ xgboost_install_python_package: yes
 # Package manager to use for installing Python prerequisites.
 # You might have pip or pip3 on the target machine.
 xgboost_python_package_manager: pip
+
+# Whether to run the Python package manager with elevated privileges.
+xgboost_python_package_manager_become: no
